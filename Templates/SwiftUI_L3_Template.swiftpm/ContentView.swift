@@ -38,11 +38,9 @@ struct MainView: View {
     let text: String = "Hello"
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                Text("Main Text")
-                    .font(.largeTitle)
-            }
+        VStack(spacing: 20) {
+            Text("Main Text")
+                .font(.largeTitle)
         }
         
     }
@@ -79,41 +77,19 @@ struct MainView: View {
 
 struct ViewBasedNavExample: View {
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Home Page").font(.largeTitle).bold()
-                NavigationLink("Navigate to Profile", destination: ProfileScreen())
-                NavigationLink(destination: SettingsScreen()) {
-                    HStack {
-                        Image(systemName: "gear")
-                        Text("Navigate to settings")
-                    }
-                }
-            }
-        }
+        
     }
 }
 
 struct ProfileScreen: View {
     var body: some View {
-        VStack {
-            Text("Profile View")
-            NavigationLink("Custom Screen", destination:  {
-                VStack {
-                    Text("Destination")
-                    Text("customized")
-                }
-            })
-            NavigationLink("Settings", destination: SettingsScreen())
-        }
+        
     }
 }
 
 struct SettingsScreen: View {
     var body: some View {
-        VStack {
-            Text("Settings View")
-        }
+        
     }
 }
 
@@ -155,33 +131,13 @@ struct SettingsScreen: View {
 
 struct ValueBasedNavExample: View {
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Value-Based Navigation").font(.largeTitle).bold()
-                NavigationLink("Navigation Link 1", value: "First Link")
-                NavigationLink(value: "Second link") {
-                    HStack {
-                        Image(systemName: "sun.max")
-                        Text("Second Link")
-                    }
-                }
-                NavigationLink("Int link", value: 10)
-            }.navigationDestination(for: String.self) { value in
-                VStack {
-                    Text("\(value)")
-                    NavigationLink("Add another String", value: "New String")
-                }
-            }.navigationDestination(for: Int.self) { val in
-                SubView(num: val)
-            }
-        }
+        
     }
 }
 
 struct SubView: View {
-    var num: Int
     var body: some View {
-        Text("Subview: \(num)")
+        
     }
 }
 
@@ -291,23 +247,13 @@ struct PathBasicsExample: View {
 
 struct NavTips_HideBackExample: View {
     var body: some View {
-        NavigationStack {
-            VStack {
-                NavigationLink("Navigate", destination: Destination())
-            }
-        }
+        
     }
 }
 
 struct Destination: View {
-    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
-        VStack {
-            Text("Destination")
-            Button("Dismiss") {
-                dismiss()
-            }
-        }.navigationBarBackButtonHidden(true)
 
     }
 }
@@ -385,57 +331,27 @@ struct NavTips_ToolbarExample: View {
 // ----------------------------------------------------------
 
 struct HomeTabView: View {
-    @State var toggle: Bool = true
+    
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Home Tab")
-                if toggle {
-                    Text("True")
-                } else {
-                    Text("False")
-                }
-                Button("Toggle") {
-                    toggle.toggle()
-                }
-                NavigationLink("Navigation Link", destination: Text("Text Destination"))
-            }
-        }
+        
     }
 }
 
 struct SearchTabView: View {
     var body: some View {
-        VStack {
-            Text("Search Tab")
-        }
+        
     }
 }
 
 struct ProfileTabView: View {
     var body: some View {
-        VStack {
-            Text("Profile Tab")
-        }
+       
     }
 }
 
 struct TabsDemoView: View {
     var body: some View {
-        TabView {
-            HomeTabView()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
-            SearchTabView()
-                .tabItem {
-                    Label("Search", systemImage: "magnifyingglass")
-                }
-            ProfileTabView()
-                .tabItem {
-                    Label("Profile", systemImage: "person")
-                }
-        }
+        
     }
 }
 
@@ -463,63 +379,33 @@ struct TabsDemoView: View {
 // 4. Allow navigation between ContentView, ListView, and DetailView
 // 5. Bonus: have your implementation support backtracking from
 //    DetailView directly to content view
-struct Fruit: Identifiable, Hashable {
-    var id: UUID = UUID()
-    var name: String
-    var fact: String
+struct Fruit {
+
 }
 
 struct ContentView: View {
-    @State var path = NavigationPath()
+    
     var body: some View {
-        NavigationStack(path: $path) {
-            VStack {
-                Text("Content View").font(.largeTitle)
-                NavigationLink("Go to ListView", value: "Listview")
-            }.navigationDestination(for: String.self) { astr in
-                switch astr {
-                case "Listview": ListView(path: $path)
-                default: ListView(path: $path)
-                }
-            }
-            .navigationDestination(for: Fruit.self) { fruit in
-                DetailView(path: $path, fruit: fruit)
-            }
-        }
+        
   
     }
 }
 
 struct ListView: View {
-    @Binding var path: NavigationPath
-    let fruits = [
-        Fruit(name: "Apple", fact: "Apples float in water."),
-        Fruit(name: "Banana", fact: "Bananas are berries."),
-        Fruit(name: "Cherry", fact: "Cherries are related to plums.")
-    ]
+    
+//    let fruits = [
+//        Fruit(name: "Apple", fact: "Apples float in water."),
+//        Fruit(name: "Banana", fact: "Bananas are berries."),
+//        Fruit(name: "Cherry", fact: "Cherries are related to plums.")
+//    ]
     var body: some View {
-        VStack(spacing: 10) {
-            Text("List View").font(.title)
-            ForEach(fruits, id: \.id) { fruit in
-                NavigationLink(value: fruit) {
-                    Text("Go to \(fruit.name)'s page")
-                }
-            }
-        }
+        
     }
 }
 
 struct DetailView: View {
-    @Binding var path: NavigationPath
-    var fruit: Fruit
+    
     var body: some View {
-        VStack {
-            Text("\(fruit.name)").font(.title)
-            Text("\(fruit.fact)").padding()
-            Button("Go to Content View") {
-                path = NavigationPath()
-            }
-        }
     }
 }
 
